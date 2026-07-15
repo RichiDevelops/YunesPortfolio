@@ -1,0 +1,45 @@
+---
+type Variant = "hero" | "tools" | "contact";
+interface Props {
+  variant: Variant;
+  className?: string;
+  delay?: number;
+  group?: "default" | "contact";
+}
+const { variant, className = "", delay = 200, group = "default" } = Astro.props;
+
+const PATHS = {
+  hero: { viewBox: "0 0 1200 800", d: "M 480 40 C 720 -30, 1020 30, 1140 200 C 1210 340, 1100 500, 880 560 C 700 600, 520 600, 360 590", label: null },
+  tools: { viewBox: "0 0 300 220", d: "M 80 170 C 130 155, 180 120, 215 75", label: { text: "working with", x: 40, y: 205, rotate: -6, size: 34 } },
+  contact: { viewBox: "0 0 500 500", d: "M 440 460 C 340 460, 260 400, 220 320 C 190 260, 190 200, 220 150 C 240 115, 270 90, 300 80", label: { text: "contact me! :)", x: 210, y: 470, rotate: -4, size: 44 } },
+} as const;
+const HEADS = {
+  hero: { x: 360, y: 590, rotate: 190 },
+  tools: { x: 215, y: 75, rotate: -55 },
+  contact: { x: 300, y: 80, rotate: -50 },
+} as const;
+
+const cfg = PATHS[variant];
+const head = HEADS[variant];
+---
+<svg aria-hidden viewBox={cfg.viewBox} preserveAspectRatio="none"
+     data-arrow data-group={group}
+     class={`pointer-events-none absolute transition-opacity duration-[1400ms] ease-out opacity-0 ${className}`}
+     style={`color: var(--sketch-ink); --arrow-delay:${delay}ms;`}>
+  <path d={cfg.d} fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"
+        data-arrow-path
+        style="stroke-dasharray:2400;stroke-dashoffset:2400;transition:stroke-dashoffset 1800ms cubic-bezier(0.65,0,0.35,1);" />
+  <g transform={`translate(${head.x} ${head.y}) rotate(${head.rotate})`}>
+    <path d="M 0 0 L -22 -10 M 0 0 L -14 14" fill="none" stroke="currentColor" stroke-width="3.5"
+          stroke-linecap="round" stroke-linejoin="round"
+          data-arrow-head style="opacity:0;transition:opacity 400ms ease-out 1600ms;" />
+  </g>
+  {cfg.label && (
+    <text x={cfg.label.x} y={cfg.label.y}
+          transform={`rotate(${cfg.label.rotate ?? 0} ${cfg.label.x} ${cfg.label.y})`}
+          fill="currentColor" class="font-hand" data-arrow-label
+          style={`font-size:${cfg.label.size ?? 32}px;opacity:0;transition:opacity 700ms ease-out 1400ms;`}>
+      {cfg.label.text}
+    </text>
+  )}
+</svg>
