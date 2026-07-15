@@ -18,7 +18,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
     <BackgroundFlares />
 
     <div class="relative z-10 mx-auto max-w-7xl px-6 pt-8">
-      <nav id="nav" class="flex items-center justify-between transition-transform duration-700 ease-out">
+      <nav id="nav" class="flex items-center justify-between transition-transform duration-500 ease-out">
         <a href="/" class="text-lg font-extrabold tracking-tight">Frozen<span class="text-brand">.</span></a>
         <div class="flex items-center gap-3">
           <button id="theme-toggle" aria-label="Toggle dark mode"
@@ -40,7 +40,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
       <main id="main" class="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-start pt-16 pb-16">
         <SketchArrow variant="hero" delay={400} className="hidden lg:block left-[28%] top-[-20px] w-[70%] h-[620px] z-[1]" group="default" />
 
-        <section id="hero-left" class="relative z-10 transition-all duration-700 ease-out">
+        <section id="hero-left" class="relative z-10 transition-transform duration-500 ease-out">
            <div aria-hidden class="pointer-events-none select-none absolute -top-10 -left-8 text-[180px] leading-none font-black" style="color: color-mix(in oklab, var(--foreground) 6%, transparent);">01</div>
 
           <div class="relative mb-3 inline-block font-hand text-brand text-4xl sm:text-5xl -rotate-[6deg] translate-x-2">Frozen.</div>
@@ -70,14 +70,14 @@ const right = [CLIENTS[1], CLIENTS[3]];
           </p>
         </section>
 
-        <aside id="hero-right" class="relative z-10 min-h-[400px]">
-          <div id="clients-block" class="transition-all duration-500 ease-out">
+        <aside id="hero-right" class="relative z-10 min-h-[400px] grid [contain:layout_style]">
+          <div id="clients-block" class="panel is-active" style="--panel-offset: -1rem;">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Current clients</h2>
             <div class="mt-4 grid grid-cols-2 gap-4 relative">
               <div class="space-y-4 pt-12">
                 {left.map((c) => (
                   <a href={c.href} target="_blank" rel="noopener noreferrer"
-                     class={`group block rounded-3xl glass p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--brand-glow)] cursor-pointer`}>
+                     class={`group block rounded-3xl glass glass-subtle p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--brand-glow)] cursor-pointer`}>
                     <div class="flex items-center justify-between mb-3">
                       <div class="h-10 w-10 rounded-full overflow-hidden bg-white/60 border border-white/70 grid place-items-center">
                         <img src={c.logo} alt={`${c.name} logo`} class={c.logoContain ? "h-8 w-8 object-contain" : "h-full w-full object-cover"} />
@@ -96,7 +96,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
               <div class="space-y-4">
                 {right.map((c) => (
                   <a href={c.href} target="_blank" rel="noopener noreferrer"
-                     class={`group block rounded-3xl glass p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--brand-glow)] cursor-pointer ${c.highlight ? "ring-1 ring-brand/40 shadow-[0_10px_40px_-15px_var(--brand-glow)]" : ""}`}>
+                     class={`group block rounded-3xl glass glass-subtle p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--brand-glow)] cursor-pointer ${c.highlight ? "ring-1 ring-brand/40 shadow-[0_10px_40px_-15px_var(--brand-glow)]" : ""}`}>
                     <div class="flex items-center justify-between mb-3">
                       <div class="h-10 w-10 rounded-full overflow-hidden bg-white/60 border border-white/70 grid place-items-center">
                         <img src={c.logo} alt={`${c.name} logo`} class={c.logoContain ? "h-8 w-8 object-contain" : "h-full w-full object-cover"} />
@@ -126,8 +126,8 @@ const right = [CLIENTS[1], CLIENTS[3]];
             </div>
           </div>
 
-          <div id="contact-block" class="opacity-0 translate-x-8 pointer-events-none absolute inset-0 transition-all duration-700 ease-out">
-            <form id="contact-form" class="glass rounded-3xl p-6 sm:p-7 space-y-6">
+          <div id="contact-block" class="panel" style="--panel-offset: 2rem;">
+            <form id="contact-form" class="glass glass-subtle rounded-3xl p-6 sm:p-7 space-y-6">
               <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
               <input type="hidden" name="subject" value="Neue Kontaktanfrage — Frozen Portfolio" />
               <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
@@ -215,57 +215,58 @@ const right = [CLIENTS[1], CLIENTS[3]];
       syncIcons();
     });
 
-    // Arrow animation on load
-    const playArrows = (group: string) => {
+    // Sketch arrows: show = draw in (respecting each arrow's own delay),
+    // hide = reset instantly. A single generation counter cancels any pending
+    // show timers, so rapid toggling can never reveal a stale-state arrow.
+    let arrowGen = 0;
+    const showArrows = (group: string) => {
+      const gen = ++arrowGen;
       document.querySelectorAll<SVGElement>(`svg[data-arrow][data-group="${group}"]`).forEach((svg) => {
         const delay = parseInt(svg.style.getPropertyValue("--arrow-delay")) || 0;
-        setTimeout(() => {
-          svg.style.opacity = "0.7";
-          const path = svg.querySelector<SVGPathElement>("[data-arrow-path]");
-          if (path) path.style.strokeDashoffset = "0";
-          const head = svg.querySelector<SVGPathElement>("[data-arrow-head]");
-          if (head) head.style.opacity = "1";
-          const label = svg.querySelector<SVGTextElement>("[data-arrow-label]");
-          if (label) label.style.opacity = "0.9";
-        }, delay);
+        setTimeout(() => { if (gen === arrowGen) svg.classList.add("is-visible"); }, delay);
       });
     };
-    const resetArrows = (group: string) => {
+    const hideArrows = (group: string) => {
+      arrowGen++; // invalidate any pending show timers
       document.querySelectorAll<SVGElement>(`svg[data-arrow][data-group="${group}"]`).forEach((svg) => {
-        svg.style.opacity = "0";
-        const path = svg.querySelector<SVGPathElement>("[data-arrow-path]");
-        if (path) path.style.strokeDashoffset = "2400";
-        const head = svg.querySelector<SVGPathElement>("[data-arrow-head]");
-        if (head) head.style.opacity = "0";
-        const label = svg.querySelector<SVGTextElement>("[data-arrow-label]");
-        if (label) label.style.opacity = "0";
+        svg.classList.add("is-resetting");
+        svg.classList.remove("is-visible");
+        requestAnimationFrame(() => svg.classList.remove("is-resetting"));
       });
     };
-    playArrows("default");
+    showArrows("default");
 
-    // Contact toggle
+    // Contact panel toggle
     const nav = document.getElementById("nav")!;
     const heroLeft = document.getElementById("hero-left")!;
+    const heroRight = document.getElementById("hero-right")!;
     const clientsBlock = document.getElementById("clients-block")!;
     const contactBlock = document.getElementById("contact-block")!;
     const contactLabel = document.getElementById("contact-toggle-label")!;
+
     let open = false;
+
+    contactBlock.addEventListener("transitionend", (e) => {
+      if (e.propertyName === "opacity") heroRight.classList.remove("is-animating");
+    });
+
     document.getElementById("contact-toggle")!.addEventListener("click", () => {
       open = !open;
       contactLabel.textContent = open ? "CLOSE" : "REQUEST";
       nav.style.transform = open ? "translateX(-2%)" : "translateX(0)";
       heroLeft.style.transform = open ? "translateX(-2%)" : "translateX(0)";
-      if (open) {
-        clientsBlock.classList.add("opacity-0", "-translate-x-4", "pointer-events-none", "absolute", "inset-0");
-        contactBlock.classList.remove("opacity-0", "translate-x-8", "pointer-events-none", "absolute", "inset-0");
-        resetArrows("default");
-        setTimeout(() => playArrows("contact"), 200);
-      } else {
-        contactBlock.classList.add("opacity-0", "translate-x-8", "pointer-events-none", "absolute", "inset-0");
-        clientsBlock.classList.remove("opacity-0", "-translate-x-4", "pointer-events-none", "absolute", "inset-0");
-        resetArrows("contact");
-        setTimeout(() => playArrows("default"), 200);
-      }
+
+      // Suspend the costly full backdrop-filter for the crossfade; the
+      // transitionend listener above restores it once the panel settles.
+      heroRight.classList.add("is-animating");
+
+      clientsBlock.classList.toggle("is-active", !open);
+      contactBlock.classList.toggle("is-active", open);
+
+      // Hide the outgoing group's arrows immediately, draw in the incoming
+      // group's arrows only after the panel has finished sliding.
+      hideArrows(open ? "default" : "contact");
+      showArrows(open ? "contact" : "default");
     });
 
     // Contact form submission via Web3Forms

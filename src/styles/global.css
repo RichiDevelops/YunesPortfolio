@@ -92,3 +92,82 @@ html, body {
               inset 0 -1px 0 color-mix(in oklab, oklch(0.5 0.25 245) 30%, transparent),
               0 10px 40px -12px oklch(0.05 0.02 285 / 0.6);
 }
+
+/* Used on the YouTube channel badges and the contact form only: same glass
+   look, but with the purple tint dialed back toward a cooler blue closer to
+   the page background instead of the punchy brand hue. */
+.glass-subtle {
+  background: linear-gradient(135deg, color-mix(in oklab, white 70%, transparent), color-mix(in oklab, white 40%, transparent));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 80%, transparent),
+              inset 0 -1px 0 color-mix(in oklab, oklch(0.6 0.1 240) 12%, transparent),
+              0 10px 40px -12px oklch(0.55 0.1 240 / 0.18);
+}
+.dark .glass-subtle {
+  background: linear-gradient(135deg, color-mix(in oklab, white 8%, transparent), color-mix(in oklab, white 3%, transparent));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 12%, transparent),
+              inset 0 -1px 0 color-mix(in oklab, oklch(0.55 0.14 240) 18%, transparent),
+              0 10px 40px -12px oklch(0.1 0.05 240 / 0.5);
+}
+
+/* Contact panel crossfade: two panels stacked in the same grid cell, toggled
+   purely via opacity + transform — the only two properties the compositor
+   can animate without ever involving the main thread. */
+.panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateX(var(--panel-offset, 1rem));
+  pointer-events: none;
+  /* Hiding: stay visible a touch longer, then fade — an ease-in curve keeps
+     opacity high before dropping, instead of vanishing right away. */
+  transition: opacity 0.35s cubic-bezier(0.5, 0, 1, 1), transform 0.35s ease-in;
+}
+.panel.is-active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  /* Showing: quick expo-out so the glow/colour reads as "full" early on. */
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s ease-out;
+}
+/* Promote to a compositor layer only while actually animating. */
+.is-animating .panel {
+  will-change: opacity, transform;
+}
+
+/* Sketch arrows: draw themselves in on show. On hide they should just be
+   instantly reset (.is-resetting) rather than animated back — they're
+   already invisible via the opacity fade, so animating stroke-dashoffset
+   there would only burn main-thread paint time for nothing. */
+.sketch-arrow {
+  opacity: 0;
+  transition: opacity 1400ms ease-out;
+}
+.sketch-arrow.is-visible {
+  opacity: 0.7;
+}
+.sketch-arrow [data-arrow-path] {
+  stroke-dashoffset: 2400;
+  transition: stroke-dashoffset 1800ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.sketch-arrow.is-visible [data-arrow-path] {
+  stroke-dashoffset: 0;
+}
+.sketch-arrow [data-arrow-head] {
+  opacity: 0;
+  transition: opacity 400ms ease-out 1600ms;
+}
+.sketch-arrow.is-visible [data-arrow-head] {
+  opacity: 1;
+}
+.sketch-arrow [data-arrow-label] {
+  opacity: 0;
+  transition: opacity 700ms ease-out 1400ms;
+}
+.sketch-arrow.is-visible [data-arrow-label] {
+  opacity: 0.9;
+}
+.sketch-arrow.is-resetting,
+.sketch-arrow.is-resetting [data-arrow-path],
+.sketch-arrow.is-resetting [data-arrow-head],
+.sketch-arrow.is-resetting [data-arrow-label] {
+  transition: none;
+}

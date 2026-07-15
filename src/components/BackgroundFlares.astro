@@ -1,40 +1,11 @@
 ---
 ---
 <div aria-hidden class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-  <div id="flare-1" class="absolute rounded-full will-change-transform"
+  <div id="flare-1" class="absolute rounded-full"
        style="top:-10vw;left:-10vw;width:45vw;height:45vw;background:radial-gradient(circle, var(--flare-1), transparent 70%);filter:blur(100px);opacity:var(--flare-1-opacity,0.35);"></div>
-  <div id="flare-2" class="absolute rounded-full will-change-transform"
+  <div id="flare-2" class="absolute rounded-full"
        style="bottom:-12vw;right:-10vw;width:45vw;height:45vw;background:radial-gradient(circle, var(--flare-2), transparent 70%);filter:blur(100px);opacity:var(--flare-2-opacity,0.3);"></div>
-  <div id="flare-3" class="absolute rounded-full will-change-transform"
+  <div id="flare-3" class="absolute rounded-full"
        style="top:30%;right:-8vw;width:45vw;height:45vw;background:radial-gradient(circle, var(--flare-3), transparent 70%);filter:blur(100px);opacity:var(--flare-3-opacity,0.28);"></div>
 </div>
 
-<script>
-  if (!window.matchMedia("(pointer: coarse)").matches) {
-    const flares = [
-      { el: document.getElementById("flare-1"), s: 0.08 },
-      { el: document.getElementById("flare-2"), s: 0.05 },
-      { el: document.getElementById("flare-3"), s: 0.04 },
-    ];
-    const FAST = "transform 0.1s ease-out";
-    const SLOW = "transform 3s cubic-bezier(0.1, 0.8, 0.2, 1)";
-    let t: number | undefined;
-    window.addEventListener("mousemove", (e) => {
-      const cx = innerWidth / 2, cy = innerHeight / 2;
-      const dx = e.clientX - cx, dy = e.clientY - cy;
-      for (const f of flares) {
-        if (!f.el) continue;
-        f.el.style.transition = FAST;
-        f.el.style.transform = `translate(${dx * f.s}px, ${dy * f.s}px)`;
-      }
-      if (t) clearTimeout(t);
-      t = window.setTimeout(() => {
-        for (const f of flares) {
-          if (!f.el) continue;
-          f.el.style.transition = SLOW;
-          f.el.style.transform = "translate(0,0)";
-        }
-      }, 100);
-    }, { passive: true });
-  }
-</script>
