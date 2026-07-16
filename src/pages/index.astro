@@ -38,7 +38,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
       </nav>
 
       <main id="main" class="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-start pt-16 pb-16">
-        <SketchArrow variant="hero" delay={400} className="hidden lg:block left-[28%] top-[-20px] w-[70%] h-[620px] z-[1]" group="default" />
+        {/* <SketchArrow variant="hero" delay={400} className="hidden lg:block left-[28%] top-[-20px] w-[70%] h-[620px] z-[1]" group="default" /> */}
 
         <section id="hero-left" class="relative z-10 transition-transform duration-500 ease-out">
            <div aria-hidden class="pointer-events-none select-none absolute -top-10 -left-8 text-[180px] leading-none font-black" style="color: color-mix(in oklab, var(--foreground) 6%, transparent);">01</div>
@@ -61,7 +61,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
             <span class="block">that drives</span>
             <span class="relative inline-block text-brand">
               engagement.
-              <SketchArrow variant="tools" delay={900} className="hidden sm:block -right-[240px] -bottom-[40px] w-[260px] h-[200px] z-[5]" group="default" />
+               {/*<SketchArrow variant="tools" delay={900} className="hidden sm:block -right-[240px] -bottom-[40px] w-[260px] h-[200px] z-[5]" group="default" /> */}
             </span>
           </h1>
 
@@ -187,7 +187,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
                 <span class="transition-transform group-hover:translate-x-1">→</span>
               </button>
             </form>
-            <SketchArrow variant="contact" delay={500} className="hidden lg:block -right-[280px] top-[40px] w-[340px] h-[420px] z-[5]" group="contact" />
+            { /*<SketchArrow variant="contact" delay={500} className="hidden lg:block -right-[280px] top-[40px] w-[340px] h-[420px] z-[5]" group="contact" /> */}
           </div>
         </aside>
       </main>
@@ -234,7 +234,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
         requestAnimationFrame(() => svg.classList.remove("is-resetting"));
       });
     };
-    showArrows("default");
+    /*showArrows("default"); */
 
     // Contact panel toggle
     const nav = document.getElementById("nav")!;
@@ -265,8 +265,8 @@ const right = [CLIENTS[1], CLIENTS[3]];
 
       // Hide the outgoing group's arrows immediately, draw in the incoming
       // group's arrows only after the panel has finished sliding.
-      hideArrows(open ? "default" : "contact");
-      showArrows(open ? "contact" : "default");
+      /*hideArrows(open ? "default" : "contact");
+      showArrows(open ? "contact" : "default");*/
     });
 
     // Contact form submission via Web3Forms
