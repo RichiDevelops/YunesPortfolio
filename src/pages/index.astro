@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import BackgroundFlares from "../components/BackgroundFlares.astro";
 import SketchArrow from "../components/SketchArrow.astro";
+import Footer from "../components/Footer.astro";
 
 const CLIENTS = [
   { name: "BastiGHG", tags: "Gaming · Minecraft", logo: "/images/bastighg.png", href: "https://www.youtube.com/@BastiGHG", views: "2.1B views", videos: "3,200 videos", highlight: false },
@@ -178,7 +179,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
                 <input id="agree" type="checkbox" required class="mt-0.5 h-4 w-4 rounded border-white/70" style="accent-color:var(--brand);" />
                 <span class="text-muted-foreground">
                   By submitting this form, you agree that the information you provide will be used to respond to your inquiry. For more details, please see our &nbsp;
-                  <a href="#" class="text-foreground font-medium underline decoration-brand/50 underline-offset-5">Privacy Policy</a>.
+                  <a href="/datenschutz" class="text-foreground font-medium underline decoration-brand/50 underline-offset-5">Privacy Policy</a>.
                   {/* <a href="#" class="text-foreground font-medium underline decoration-brand/50 underline-offset-2">Imprint</a>. */}
                 </span>
               </label>
@@ -194,10 +195,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
         </aside>
       </main>
 
-      <footer class="pb-10 flex items-center justify-between text-sm text-muted-foreground pt-6" style="border-top:1px solid var(--footer-border);">
-        <span>© Frozen 2026</span>
-        <span class="font-mono">Frozen.</span>
-      </footer>
+        <Footer />
     </div>
   </div>
 

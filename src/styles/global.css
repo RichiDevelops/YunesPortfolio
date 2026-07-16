@@ -102,13 +102,23 @@ html, body {
               inset 0 -1px 0 color-mix(in oklab, oklch(0.6 0.1 240) 12%, transparent),
               0 10px 40px -12px oklch(0.55 0.1 240 / 0.18);
 }
-.dark .glass-subtle {
-  background: linear-gradient(135deg, color-mix(in oklab, white 8%, transparent), color-mix(in oklab, white 3%, transparent));
-  box-shadow: inset 0 1px 0 color-mix(in oklab, white 12%, transparent),
-              inset 0 -1px 0 color-mix(in oklab, oklch(0.55 0.14 240) 18%, transparent),
-              0 10px 40px -12px oklch(0.1 0.05 240 / 0.5);
+ .dark .glass-subtle {
+  background: linear-gradient(135deg, color-mix(in oklab, white 1.5%, transparent), color-mix(in oklab, white 0.5%, transparent));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 4%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, oklch(0.3 0.03 240) 8%, transparent),
+    0 10px 40px -12px oklch(0.03 0.01 240 / 0.35);
 }
 
+.glass.glass-subtle {
+  backdrop-filter: blur(22px) saturate(90%);
+}
+
+.dark .glass.glass-subtle {
+  background: linear-gradient(315deg, color-mix(in oklab, white 7%, transparent), color-mix(in oklab, white 0.5%, transparent));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 6%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, oklch(0.58 0.13 240) 24%, transparent),
+    0 10px 40px -12px oklch(0.08 0.03 240 / 0.45);
+}
 /* Contact panel crossfade: two panels stacked in the same grid cell, toggled
    purely via opacity + transform — the only two properties the compositor
    can animate without ever involving the main thread. */
