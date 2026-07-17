@@ -5,10 +5,10 @@ import SketchArrow from "../components/SketchArrow.astro";
 import Footer from "../components/Footer.astro";
 
 const CLIENTS = [
-  { name: "BastiGHG", tags: "Gaming · Minecraft", logo: "/images/bastighg.png", href: "https://www.youtube.com/@BastiGHG", views: "2.1B views", videos: "3,200 videos", highlight: false },
-  { name: "Bastian", tags: "Channel Management · Gaming · Variety", logo: "/images/bastian.png", href: "https://www.youtube.com/@Bastian", views: "480M views", videos: "900 videos", highlight: true },
-  { name: "BastiGHG Bonus", tags: "Channel Management · Gaming · Reactions", logo: "/images/bastighg-bonus.png", href: "https://www.youtube.com/@BastiGHGClips", views: "350M views", videos: "650 videos", highlight: false },
-  { name: "LS Galabau", tags: "Channel Management · Garden Work", logo: "/images/ls-galabau.png", logoContain: true, href: "https://www.youtube.com/@ls.galabau", views: "15M views", videos: "180 videos", highlight: false },
+  { name: "BastiGHG", tags: "Gaming · Minecraft", logo: "/images/bastighg.png", bgImage: "/images/bastighg.png", bgSoftLeft: false, href: "https://www.youtube.com/@BastiGHG", views: "1.2B views", videos: "1820 videos", highlight: false },
+  { name: "Bastian", tags: "Channel Management · Gaming · Variety", logo: "/images/bastian.png",  bgImage: "/images/bastian.png",  bgSoftLeft: false, href: "https://www.youtube.com/@Bastian", views: "200M views", videos: "780 videos", highlight: true },
+  { name: "BastiGHG Bonus", tags: "Channel Management · Gaming · Reactions", logo: "/images/bastighg-bonus.png",  bgImage: "/images/bastighg-bonus.png", bgSoftLeft: false, href: "https://www.youtube.com/@BastiGHGClips", views: "50M views", videos: "1280 videos", highlight: false },
+  { name: "LS Galabau", tags: "Channel Management · Garden Work", logo: "/images/ls-galabau.png", bgImage: "/images/LSGALABAU_GOAT.png", logoContain: true, bgSoftLeft: true, href: "https://www.youtube.com/@ls.galabau", views: "220K views", videos: "85 videos", highlight: false },
 ];
 
 const left = [CLIENTS[0], CLIENTS[2]];
@@ -67,7 +67,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
           </h1>
 
           <p class="mt-10 max-w-lg text-base text-muted-foreground">
-            I'm <span class="font-semibold text-foreground">Frozen</span> — an experienced video editor shaped by years in the social media ecosystem. I build the engine for high-performing, successful videos.
+            I'm <span class="font-semibold text-foreground">Frozen</span>, an experienced video editor shaped by years in the social media ecosystem. I build the engine for high-performing, successful videos.
           </p>
         </section>
 
@@ -80,12 +80,19 @@ const right = [CLIENTS[1], CLIENTS[3]];
               <div class="space-y-4 pt-12">
                 {left.map((c) => (
                   <a href={c.href} target="_blank" rel="noopener noreferrer"
-                     class={`group block rounded-3xl glass glass-subtle p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--brand-glow)] cursor-pointer`}>
+                     class={`channel-card group block rounded-3xl glass glass-subtle p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--brand-glow)] cursor-pointer`}>
+                     <img
+                      src={c.bgImage ?? c.logo}
+                      alt=""
+                      aria-hidden="true"
+                      class={`channel-card__bg`}
+                    />
+                    
                     <div class="flex items-center justify-between mb-3">
                       <div class="h-10 w-10 rounded-full overflow-hidden bg-white/60 border border-white/70 grid place-items-center">
                         <img src={c.logo} alt={`${c.name} logo`} class={c.logoContain ? "h-8 w-8 object-contain" : "h-full w-full object-cover"} />
                       </div>
-                       <span class="text-[10px] font-semibold uppercase tracking-wider text-brand bg-brand/10 rounded-md px-2 py-0.5">Live</span>
+                       <span class="text-[10px] font-semibold uppercase tracking-wider text-brand bg-brand/10 rounded-md px-2 py-0.5">{/*Live */}</span>
                     </div>
                     <div class="text-sm font-semibold truncate group-hover:text-brand transition-colors">{c.name}</div>
                     <div class="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{c.tags}</div>
@@ -99,12 +106,22 @@ const right = [CLIENTS[1], CLIENTS[3]];
               <div class="space-y-4">
                 {right.map((c) => (
                   <a href={c.href} target="_blank" rel="noopener noreferrer"
-                     class={`group block rounded-3xl glass glass-subtle p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--brand-glow)] cursor-pointer ${c.highlight ? "ring-1 ring-brand/40 shadow-[0_10px_40px_-15px_var(--brand-glow)]" : ""}`}>
+                     class={`channel-card group block rounded-3xl glass glass-subtle p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--brand-glow)] cursor-pointer ${c.highlight ? "ring-1 ring-brand/40 shadow-[0_10px_40px_-15px_var(--brand-glow)]" : ""}`}>
+                    <img
+                      src={c.bgImage ?? c.logo}
+                      alt=""
+                      aria-hidden="true"
+                       class:list={[
+                        "channel-card__bg",
+                        c.bgSoftLeft && "channel-card__bg--soft-left"
+                      ]}
+                    />
+                    
                     <div class="flex items-center justify-between mb-3">
                       <div class="h-10 w-10 rounded-full overflow-hidden bg-white/60 border border-white/70 grid place-items-center">
                         <img src={c.logo} alt={`${c.name} logo`} class={c.logoContain ? "h-8 w-8 object-contain" : "h-full w-full object-cover"} />
                       </div>
-                      <span class="text-[10px] font-semibold uppercase tracking-wider text-brand bg-brand/10 rounded-md px-2 py-0.5">Live</span>
+                      <span class="text-[10px] font-semibold uppercase tracking-wider text-brand bg-brand/10 rounded-md px-2 py-0.5">{/*Live */}</span>
                     </div>
                     <div class="text-sm font-semibold truncate group-hover:text-brand transition-colors">{c.name}</div>
                     <div class="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{c.tags}</div>
@@ -118,13 +135,13 @@ const right = [CLIENTS[1], CLIENTS[3]];
             </div>
             <div class="mt-6 pt-4 pl-2 flex items-baseline gap-4 font-hand text-foreground/85">
               <div class="flex items-baseline gap-2">
-                <span class="text-2xl leading-none">2.9 Billion+</span>
-                <span class="text-lg text-muted-foreground">total views</span>
+                <span class="text-2xl leading-none">1.4 Billion+</span>
+                <span class="text-md text-muted-foreground">total views</span>
               </div>
               <span class="text-2xl text-muted-foreground/60">·</span>
               <div class="flex items-baseline gap-2">
-                <span class="text-3xl leading-none">100+</span>
-                <span class="text-lg text-muted-foreground">videos</span>
+                <span class="text-3xl leading-none">2000+</span>
+                <span class="text-md text-muted-foreground">videos</span>
               </div>
             </div>
           </div>
