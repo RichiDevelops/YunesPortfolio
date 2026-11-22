@@ -1,0 +1,85 @@
+{
+  "updatedAt": "2026-11-22",
+  "clients": [
+    {
+      "handle": "BastiGHG",
+      "name": "BastiGHG",
+      "tags": "Gaming · Minecraft",
+      "logo": "/images/bastighg.png",
+      "bgImage": "/images/bastighg.png",
+      "highlight": false,
+      "stats": {
+        "views": 1256523399,
+        "videos": 1815,
+        "subscribers": 2380000
+      }
+    },
+    {
+      "handle": "Bastian",
+      "name": "Bastian",
+      "tags": "Channel Management · Gaming · Variety",
+      "logo": "/images/bastian.png",
+      "bgImage": "/images/bastian.png",
+      "highlight": true,
+      "stats": {
+        "views": 214482560,
+        "videos": 805,
+        "subscribers": 885000
+      }
+    },
+    {
+      "handle": "BastiGHGClips",
+      "name": "BastiGHG Bonus",
+      "tags": "Channel Management · Gaming · Reactions",
+      "logo": "/images/bastighg-bonus.png",
+      "bgImage": "/images/bastighg-bonus.png",
+      "highlight": false,
+      "stats": {
+        "views": 53268112,
+        "videos": 1284,
+        "subscribers": 237000
+      }
+    },
+    {
+      "handle": "ls.galabau",
+      "name": "LS Galabau",
+      "tags": "Channel Management · Garden Work",
+      "logo": "/images/ls-galabau.png",
+      "bgImage": "/images/LSGALABAU_GOAT.png",
+      "logoContain": true,
+      "bgSoftLeft": true,
+      "highlight": false,
+      "stats": {
+        "views": 534499,
+        "videos": 93,
+        "subscribers": 3140
+      }
+    },
+    {
+      "handle": "merleperle",
+      "name": "merleperle",
+      "tags": "Channel Management · Entertainment",
+      "logo": "/images/merleperle.jpg",
+      "bgImage": "/images/merleperle.jpg",
+      "highlight": false,
+      "stats": {
+        "views": 938542,
+        "videos": 5,
+        "subscribers": 35200
+      }
+    },
+    {
+      "handle": "moremoerli",
+      "name": "moerli",
+      "tags": "Channel Management · Reactions · Streams",
+      "logo": "/images/moerli.jpg",
+      "bgImage": "/images/moerli.jpg",
+      "highlight": false,
+      "stats": {
+        "views": 5742868,
+        "videos": 35,
+        "subscribers": 10900
+      }
+    }
+  ]
+}
