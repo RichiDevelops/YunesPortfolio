@@ -7,7 +7,7 @@ import WorkedWith from "../components/WorkedWith.astro";
 
 import clientData from "../data/clients.json";
 
-// Stats in src/data/clients.json are refreshed daily by
+// Stats in src/data/clients.json are refreshed weekly by
 // .github/workflows/update-stats.yml (scripts/update-stats.mjs).
 const compact = (n, suffix) =>
   n == null ? "" : `${new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n)} ${suffix}`;

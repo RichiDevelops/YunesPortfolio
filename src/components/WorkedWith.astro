@@ -30,6 +30,25 @@ const secondsPerAvatar = 4; // slow, conveyor-belt pace
   </div>
 </div>
 
+<script>
+  // Hovering (or keyboard-focusing) an avatar slows the belt to half speed.
+  // playbackRate keeps the current position, unlike swapping the CSS duration.
+  const SLOW = 0.5;
+  for (const track of document.querySelectorAll<HTMLElement>(".worked-with__track")) {
+    const setRate = (rate: number) => {
+      for (const a of track.getAnimations()) a.updatePlaybackRate(rate);
+    };
+    const onAvatar = (e: Event) => !!(e.target as Element).closest?.(".worked-with__item");
+    track.addEventListener("pointerover", (e) => onAvatar(e) && setRate(SLOW));
+    track.addEventListener("pointerout", (e) => {
+      const next = (e as PointerEvent).relatedTarget as Element | null;
+      if (!next?.closest?.(".worked-with__item")) setRate(1);
+    });
+    track.addEventListener("focusin", () => setRate(SLOW));
+    track.addEventListener("focusout", () => setRate(1));
+  }
+</script>
+
 <style>
   .worked-with__viewport {
     overflow: hidden;
@@ -45,10 +64,6 @@ const secondsPerAvatar = 4; // slow, conveyor-belt pace
     margin: 0;
     padding: 0;
     animation: worked-with-belt var(--duration) linear infinite;
-  }
-  .worked-with__viewport:hover .worked-with__track,
-  .worked-with__viewport:focus-within .worked-with__track {
-    animation-play-state: paused;
   }
   @keyframes worked-with-belt {
     to { transform: translateX(calc(-50% - 0.5rem)); }
