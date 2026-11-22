@@ -3,16 +3,33 @@ import Base from "../layouts/Base.astro";
 import BackgroundFlares from "../components/BackgroundFlares.astro";
 import SketchArrow from "../components/SketchArrow.astro";
 import Footer from "../components/Footer.astro";
+import WorkedWith from "../components/WorkedWith.astro";
 
-const CLIENTS = [
-  { name: "BastiGHG", tags: "Gaming · Minecraft", logo: "/images/bastighg.png", bgImage: "/images/bastighg.png", bgSoftLeft: false, href: "https://www.youtube.com/@BastiGHG", views: "1.2B views", videos: "1820 videos", highlight: false },
-  { name: "Bastian", tags: "Channel Management · Gaming · Variety", logo: "/images/bastian.png",  bgImage: "/images/bastian.png",  bgSoftLeft: false, href: "https://www.youtube.com/@Bastian", views: "200M views", videos: "780 videos", highlight: true },
-  { name: "BastiGHG Bonus", tags: "Channel Management · Gaming · Reactions", logo: "/images/bastighg-bonus.png",  bgImage: "/images/bastighg-bonus.png", bgSoftLeft: false, href: "https://www.youtube.com/@BastiGHGClips", views: "50M views", videos: "1280 videos", highlight: false },
-  { name: "LS Galabau", tags: "Channel Management · Garden Work", logo: "/images/ls-galabau.png", bgImage: "/images/LSGALABAU_GOAT.png", logoContain: true, bgSoftLeft: true, href: "https://www.youtube.com/@ls.galabau", views: "220K views", videos: "85 videos", highlight: false },
-];
+import clientData from "../data/clients.json";
 
-const left = [CLIENTS[0], CLIENTS[2]];
-const right = [CLIENTS[1], CLIENTS[3]];
+// Stats in src/data/clients.json are refreshed daily by
+// .github/workflows/update-stats.yml (scripts/update-stats.mjs).
+const compact = (n, suffix) =>
+  n == null ? "" : `${new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n)} ${suffix}`;
+
+const CLIENTS = clientData.clients.map((c) => ({
+  ...c,
+  href: `https://www.youtube.com/@${c.handle}`,
+  views: compact(c.stats.views, "views"),
+  subscribers: compact(c.stats.subscribers, "subs"),
+}));
+
+const left = CLIENTS.filter((_, i) => i % 2 === 0);
+const right = CLIENTS.filter((_, i) => i % 2 === 1);
+
+const sum = (key) => CLIENTS.reduce((acc, c) => acc + (c.stats[key] ?? 0), 0);
+const totalViews = sum("views");
+const totalVideos = sum("videos");
+const totalViewsLabel =
+  totalViews >= 1e9 ? `${Math.floor(totalViews / 1e8) / 10} Billion+`
+  : totalViews >= 1e6 ? `${Math.floor(totalViews / 1e5) / 10} Million+`
+  : `${totalViews.toLocaleString("en")}+`;
+const totalVideosLabel = `${Math.floor(totalVideos / 100) * 100}+`;
 ---
 <Base title="Frozen — Video Editing that drives engagement" description="Frozen. Experienced video editor building the engine for high-performing, successful videos.">
   <div class="relative min-h-screen text-foreground overflow-hidden" style="background: var(--gradient-ice);">
@@ -41,7 +58,7 @@ const right = [CLIENTS[1], CLIENTS[3]];
       <main id="main" class="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-start pt-16 pb-16">
         {/* <SketchArrow variant="hero" delay={400} className="hidden lg:block left-[28%] top-[-20px] w-[70%] h-[620px] z-[1]" group="default" /> */}
 
-        <section id="hero-left" class="relative z-10 transition-transform duration-500 ease-out">
+        <section id="hero-left" class="relative z-10 flex flex-col lg:self-stretch transition-transform duration-500 ease-out">
            <div aria-hidden class="pointer-events-none select-none absolute -top-10 -left-8 text-[180px] leading-none font-black" style="color: color-mix(in oklab, var(--foreground) 6%, transparent);">01</div>
 
           <div class="relative mb-3 inline-block font-hand text-brand text-4xl sm:text-5xl -rotate-[6deg] translate-x-2">Frozen.</div>
@@ -69,6 +86,10 @@ const right = [CLIENTS[1], CLIENTS[3]];
           <p class="mt-10 max-w-lg text-base text-muted-foreground">
             I'm <span class="font-semibold text-foreground">Frozen</span>, an experienced video editor shaped by years in the social media ecosystem. I build the engine for high-performing, successful videos.
           </p>
+
+          <div id="worked-with" class="mt-10 lg:mt-auto lg:-mb-7 max-w-lg">
+            <WorkedWith />
+          </div>
         </section>
 
         <aside id="hero-right" class="relative z-10 min-h-[400px] grid [contain:layout_style]">
@@ -96,9 +117,9 @@ const right = [CLIENTS[1], CLIENTS[3]];
                     </div>
                     <div class="text-sm font-semibold truncate group-hover:text-brand transition-colors">{c.name}</div>
                     <div class="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{c.tags}</div>
-                    <div class="mt-3 pt-3 border-t border-white/40 dark:border-white/10 flex items-baseline justify-between">
-                      <span class="text-sm font-semibold text-brand">{c.views}</span>
-                      <span class="text-[10px] text-muted-foreground">{c.videos}</span>
+                    <div class="mt-3 pt-3 border-t border-white/40 dark:border-white/10 flex items-baseline justify-between gap-2">
+                      <span class="text-sm font-semibold text-brand whitespace-nowrap">{c.views}</span>
+                      <span class="text-[10px] text-muted-foreground whitespace-nowrap">{c.subscribers}</span>
                     </div>
                   </a>
                 ))}
@@ -125,22 +146,22 @@ const right = [CLIENTS[1], CLIENTS[3]];
                     </div>
                     <div class="text-sm font-semibold truncate group-hover:text-brand transition-colors">{c.name}</div>
                     <div class="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{c.tags}</div>
-                    <div class="mt-3 pt-3 border-t border-white/40 dark:border-white/10 flex items-baseline justify-between">
-                      <span class="text-sm font-semibold text-brand">{c.views}</span>
-                      <span class="text-[10px] text-muted-foreground">{c.videos}</span>
+                    <div class="mt-3 pt-3 border-t border-white/40 dark:border-white/10 flex items-baseline justify-between gap-2">
+                      <span class="text-sm font-semibold text-brand whitespace-nowrap">{c.views}</span>
+                      <span class="text-[10px] text-muted-foreground whitespace-nowrap">{c.subscribers}</span>
                     </div>
                   </a>
                 ))}
               </div>
             </div>
-            <div class="mt-6 pt-4 pl-2 flex items-baseline gap-4 font-sans text-foreground/85">
-              <div class="flex items-baseline gap-2">
-                <span class="text-2xl leading-none font-extrabold tracking-tight">1.4 Billion+</span>
+            <div class="mt-6 pt-4 pl-2 flex flex-wrap items-baseline gap-x-4 gap-y-2 font-sans text-foreground/85">
+              <div class="flex items-baseline gap-2 whitespace-nowrap">
+                <span class="text-xl sm:text-2xl leading-none font-extrabold tracking-tight">{totalViewsLabel}</span>
                 <span class="text-sm text-muted-foreground">total views</span>
               </div>
               <span class="text-2xl text-muted-foreground/60">·</span>
-              <div class="flex items-baseline gap-2">
-                <span class="text-2xl leading-none font-extrabold tracking-tight">3900+</span>
+              <div class="flex items-baseline gap-2 whitespace-nowrap">
+                <span class="text-xl sm:text-2xl leading-none font-extrabold tracking-tight">{totalVideosLabel}</span>
                 <span class="text-sm text-muted-foreground">videos</span>
               </div>
             </div>
