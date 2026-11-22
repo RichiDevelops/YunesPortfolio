@@ -30,3 +30,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Astro generated types/cache
+.astro/
+
+# Environment variables
+.env
+.env.*
+!.env.example
