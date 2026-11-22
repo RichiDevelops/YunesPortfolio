@@ -1,0 +1,118 @@
+---
+import people from "../data/worked-with.json";
+
+// The belt needs enough avatars to stay full while looping, so the list is
+// repeated until each half has at least MIN items; the track holds two
+// identical halves and slides by exactly one half per cycle.
+const MIN = 10;
+const half = [];
+while (half.length < MIN) half.push(...people);
+const track = [...half, ...half];
+const secondsPerAvatar = 4; // slow, conveyor-belt pace
+---
+<div class="worked-with">
+  <div class="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3 pl-1">Worked with</div>
+  <div class="worked-with__viewport">
+    <ul class="worked-with__track" style={`--duration:${half.length * secondsPerAvatar}s;`}>
+      {track.map((p, i) => (
+        <li aria-hidden={i >= people.length ? "true" : undefined}>
+          <a href={p.href} target="_blank" rel="noopener noreferrer"
+             tabindex={i < people.length ? undefined : -1}
+             class="worked-with__item group" title={p.name}>
+            {p.image
+              ? <img src={p.image} alt={p.name} loading="lazy" />
+              : <span class="worked-with__fallback">{p.name.charAt(0).toUpperCase()}</span>}
+            <span class="worked-with__name">{p.name}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .worked-with__viewport {
+    overflow: hidden;
+    padding: 0.5rem 0 1.75rem;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
+  .worked-with__track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    animation: worked-with-belt var(--duration) linear infinite;
+  }
+  .worked-with__viewport:hover .worked-with__track,
+  .worked-with__viewport:focus-within .worked-with__track {
+    animation-play-state: paused;
+  }
+  @keyframes worked-with-belt {
+    to { transform: translateX(calc(-50% - 0.5rem)); }
+  }
+  .worked-with__item {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 9999px;
+    transition: transform 250ms ease-out;
+  }
+  .worked-with__item img,
+  .worked-with__fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    object-fit: cover;
+    border: 2px solid color-mix(in oklab, white 75%, transparent);
+    box-shadow: 0 8px 24px -10px var(--brand-glow);
+    transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+  }
+  .worked-with__fallback {
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--brand);
+    background: color-mix(in oklab, var(--brand) 14%, transparent);
+  }
+  :global(.dark) .worked-with__item img,
+  :global(.dark) .worked-with__fallback {
+    border-color: color-mix(in oklab, white 15%, transparent);
+  }
+  .worked-with__item:hover,
+  .worked-with__item:focus-visible {
+    transform: translateY(-3px) scale(1.08);
+  }
+  .worked-with__item:hover img,
+  .worked-with__item:hover .worked-with__fallback,
+  .worked-with__item:focus-visible img {
+    border-color: var(--brand);
+    box-shadow: 0 10px 30px -8px var(--brand-glow);
+  }
+  .worked-with__name {
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(-2px);
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--brand);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+  }
+  .worked-with__item:hover .worked-with__name,
+  .worked-with__item:focus-visible .worked-with__name {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .worked-with__track { animation-duration: calc(var(--duration) * 3); }
+  }
+</style>

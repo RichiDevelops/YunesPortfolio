@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import BackgroundFlares from "../components/BackgroundFlares.astro";
 import SketchArrow from "../components/SketchArrow.astro";
 import Footer from "../components/Footer.astro";
+import WorkedWith from "../components/WorkedWith.astro";
 
 import clientData from "../data/clients.json";
 
@@ -57,7 +58,7 @@ const totalVideosLabel = `${Math.floor(totalVideos / 100) * 100}+`;
       <main id="main" class="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-start pt-16 pb-16">
         {/* <SketchArrow variant="hero" delay={400} className="hidden lg:block left-[28%] top-[-20px] w-[70%] h-[620px] z-[1]" group="default" /> */}
 
-        <section id="hero-left" class="relative z-10 transition-transform duration-500 ease-out">
+        <section id="hero-left" class="relative z-10 flex flex-col lg:self-stretch transition-transform duration-500 ease-out">
            <div aria-hidden class="pointer-events-none select-none absolute -top-10 -left-8 text-[180px] leading-none font-black" style="color: color-mix(in oklab, var(--foreground) 6%, transparent);">01</div>
 
           <div class="relative mb-3 inline-block font-hand text-brand text-4xl sm:text-5xl -rotate-[6deg] translate-x-2">Frozen.</div>
@@ -85,6 +86,10 @@ const totalVideosLabel = `${Math.floor(totalVideos / 100) * 100}+`;
           <p class="mt-10 max-w-lg text-base text-muted-foreground">
             I'm <span class="font-semibold text-foreground">Frozen</span>, an experienced video editor shaped by years in the social media ecosystem. I build the engine for high-performing, successful videos.
           </p>
+
+          <div id="worked-with" class="mt-10 lg:mt-auto lg:-mb-7 max-w-lg">
+            <WorkedWith />
+          </div>
         </section>
 
         <aside id="hero-right" class="relative z-10 min-h-[400px] grid [contain:layout_style]">
