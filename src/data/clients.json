@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-22",
+  "updatedAt": "2026-11-23",
   "clients": [
     {
       "handle": "BastiGHG",
@@ -9,7 +9,7 @@
       "bgImage": "/images/bastighg.png",
       "highlight": false,
       "stats": {
-        "views": 1256523399,
+        "views": 1256796909,
         "videos": 1815,
         "subscribers": 2380000
       }
@@ -22,7 +22,7 @@
       "bgImage": "/images/bastian.png",
       "highlight": true,
       "stats": {
-        "views": 214482560,
+        "views": 214582569,
         "videos": 805,
         "subscribers": 885000
       }
@@ -35,7 +35,7 @@
       "bgImage": "/images/bastighg-bonus.png",
       "highlight": false,
       "stats": {
-        "views": 53268112,
+        "views": 53271263,
         "videos": 1284,
         "subscribers": 237000
       }
@@ -50,7 +50,7 @@
       "bgSoftLeft": true,
       "highlight": false,
       "stats": {
-        "views": 534499,
+        "views": 534688,
         "videos": 93,
         "subscribers": 3140
       }
@@ -63,7 +63,7 @@
       "bgImage": "/images/merleperle.jpg",
       "highlight": false,
       "stats": {
-        "views": 938542,
+        "views": 938651,
         "videos": 5,
         "subscribers": 35200
       }
@@ -76,7 +76,7 @@
       "bgImage": "/images/moerli.jpg",
       "highlight": false,
       "stats": {
-        "views": 5742868,
+        "views": 5744194,
         "videos": 35,
         "subscribers": 10900
       }
